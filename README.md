@@ -1,2 +1,2 @@
 # camera
-link - https://piratekingmonkeydluffy.github.io/caw/
+link - https://piratekingmonkeydluffy.github.io/camera/
