@@ -1,44 +1,47 @@
 ﻿<!DOCTYPE html>
 <html>
   <head>
-    <title>Take Photo Using Camera</title>
+    <title>Camera Example</title>
     <style>
-      #video {
+      video {
         width: 100%;
+        max-width: 500px;
+        height: auto;
       }
     </style>
   </head>
   <body>
-    <video id="video" autoplay></video>
-    <button id="snap">Take Photo</button>
-    <canvas id="canvas"></canvas>
-    <div id="photo-link"></div>
+    <h1>Camera Example</h1>
+    <div>
+      <video id="video" autoplay></video>
+      <button id="capture">Take Photo</button>
+      <canvas id="canvas"></canvas>
+    </div>
+    <p>Share this link to access the camera: <a href="#">https://yourdomain.com/camera-example</a></p>
     <script>
+      // Get the video element
       const video = document.getElementById('video');
-      const canvas = document.getElementById('canvas');
-      const snap = document.getElementById('snap');
-      const photoLink = document.getElementById('photo-link');
-      const constraints = {
-        video: true
-      };
 
-      navigator.mediaDevices.getUserMedia(constraints)
+      // Get the canvas element
+      const canvas = document.getElementById('canvas');
+
+      // Get the capture button
+      const captureButton = document.getElementById('capture');
+
+      // Get the camera stream and display it in the video element
+      navigator.mediaDevices.getUserMedia({ video: true })
         .then((stream) => {
           video.srcObject = stream;
+        })
+        .catch((error) => {
+          console.error('Error accessing camera:', error);
         });
 
-      snap.addEventListener('click', function() {
+      // When the capture button is clicked, take a photo and display it in the canvas element
+      captureButton.addEventListener('click', () => {
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
         canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-        const photoURL = canvas.toDataURL('image/png'); // Convert canvas to base64-encoded image URL
-        const link = document.createElement('a');
-        link.href = photoURL;
-        link.target = '_blank';
-        link.download = 'photo.png'; // Set file name for download
-        link.textContent = 'View Photo'; // Set link text
-        photoLink.innerHTML = ''; // Clear previous link
-        photoLink.appendChild(link); // Add new link to page
       });
     </script>
   </body>
